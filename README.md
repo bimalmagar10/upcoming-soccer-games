@@ -116,7 +116,8 @@ countdowns and kickoff times sit on tabular figures and never jitter.
 
 Motion is limited to a slow light sweep across the spotlight, ripple rings
 behind the two crests, a shimmer travelling the competition badge borders, a
-pulse on live indicators, and a staggered spring entrance on fixture rows — all of it disabled under `prefers-reduced-motion`.
+circular ripple pulsing out of each square timeline dot, a pulse on live
+indicators, and a staggered spring entrance on fixture rows — all of it disabled under `prefers-reduced-motion`.
 
 Three motion pieces are adapted from [Magic UI](https://magicui.design):
 

@@ -21,11 +21,11 @@
   outline: 2px solid var(--bg);
   transition: background-color var(--dur) var(--ease), transform var(--dur) var(--ease);
 
-  --dot-speed: 3s;
+  --dot-speed: 4.2s;
   /* Half of --dot-speed, kept as its own value: a `/ 2` inside the calc below
      makes the declaration unreliable, which silently put both rings on the same
      phase so neither was ever visible. */
-  --dot-half: 1.5s;
+  --dot-half: 2.1s;
   --dot-ring-color: color-mix(in srgb, var(--c-midnight) 60%, transparent);
 }
 
@@ -39,12 +39,14 @@
   content: "";
   position: absolute;
   inset: 0;
-  animation: dotRipple var(--dot-speed) var(--ease-out) infinite;
-  animation-delay: calc(var(--dot-index, 0) * -0.55s);
+  /* The dot itself stays square; only the ring it emits is round. */
+  border-radius: 50%;
+  animation: dotRipple var(--dot-speed) ease-out infinite;
+  animation-delay: calc(var(--dot-index, 0) * -0.9s);
 }
 
 .dot::after {
-  animation-delay: calc(var(--dot-index, 0) * -0.55s - var(--dot-half));
+  animation-delay: calc(var(--dot-index, 0) * -0.9s - var(--dot-half));
 }
 
 .item:hover .dot {
@@ -52,8 +54,8 @@
 }
 
 .dotLive {
-  --dot-speed: 1.8s;
-  --dot-half: 0.9s;
+  --dot-speed: 2.6s;
+  --dot-half: 1.3s;
   --dot-ring-color: color-mix(in srgb, var(--c-emerald) 75%, transparent);
   background: var(--c-emerald);
 }
@@ -268,12 +270,15 @@
  * Runs on the pseudo-elements, leaving the dot's own transform free for hover.
  */
 @keyframes dotRipple {
-  from {
-    box-shadow: 0 0 0 2px var(--dot-ring-color);
+  0% {
+    box-shadow: 0 0 0 0 var(--dot-ring-color);
+    opacity: 0;
+  }
+  18% {
     opacity: 1;
   }
-  to {
-    box-shadow: 0 0 0 12px var(--dot-ring-color);
+  100% {
+    box-shadow: 0 0 0 13px var(--dot-ring-color);
     opacity: 0;
   }
 }
