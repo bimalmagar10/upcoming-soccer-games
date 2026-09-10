@@ -1,0 +1,47 @@
+.footer {
+  margin-top: var(--gap-2xl);
+  border-top: 1px solid var(--border);
+}
+
+.inner {
+  width: min(100%, var(--shell));
+  margin-inline: auto;
+  padding: var(--gap-lg) var(--shell-pad) var(--gap-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-2xs);
+}
+
+.line {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  max-width: 46rem;
+}
+
+.link {
+  color: var(--text);
+  border-bottom: 1px solid var(--border-strong);
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+
+.link:hover {
+  color: var(--accent-ink);
+  border-color: var(--accent-ink);
+}
+
+.zone {
+  color: var(--text-faint);
+}
+
+.note {
+  font-size: 0.8rem;
+  color: var(--text-faint);
+}
+
+.code {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: 0.95em;
+  padding: 0.05rem 0.3rem;
+  border-radius: var(--r-sm);
+  background: color-mix(in srgb, var(--c-midnight) 9%, transparent);
+}

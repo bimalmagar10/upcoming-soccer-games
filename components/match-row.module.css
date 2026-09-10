@@ -1,0 +1,279 @@
+/* --- Timeline item ------------------------------------------------------- */
+
+.item {
+  position: relative;
+  padding-left: var(--rail-inset);
+  list-style: none;
+}
+
+/**
+ * The marker sitting on the section's rail. The outline is painted in the page
+ * ground so the dot punches a clean gap in the line behind it.
+ */
+.dot {
+  position: absolute;
+  left: 0;
+  top: 1.4rem;
+  width: var(--dot-size);
+  height: var(--dot-size);
+  transform: translateX(-50%);
+  background: var(--c-midnight);
+  outline: 2px solid var(--bg);
+  transition: background-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+
+  --dot-speed: 3s;
+  /* Half of --dot-speed, kept as its own value: a `/ 2` inside the calc below
+     makes the declaration unreliable, which silently put both rings on the same
+     phase so neither was ever visible. */
+  --dot-half: 1.5s;
+  --dot-ring-color: color-mix(in srgb, var(--c-midnight) 60%, transparent);
+}
+
+/*
+ * Two rings half a cycle apart, so one is always on its way out. The negative,
+ * index-derived delay puts neighbouring dots at different points in the cycle,
+ * making the rail ripple down the page rather than flash in unison.
+ */
+.dot::before,
+.dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  animation: dotRipple var(--dot-speed) var(--ease-out) infinite;
+  animation-delay: calc(var(--dot-index, 0) * -0.55s);
+}
+
+.dot::after {
+  animation-delay: calc(var(--dot-index, 0) * -0.55s - var(--dot-half));
+}
+
+.item:hover .dot {
+  transform: translateX(-50%) scale(1.4);
+}
+
+.dotLive {
+  --dot-speed: 1.8s;
+  --dot-half: 0.9s;
+  --dot-ring-color: color-mix(in srgb, var(--c-emerald) 75%, transparent);
+  background: var(--c-emerald);
+}
+
+/* --- The card ------------------------------------------------------------ */
+
+.card {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr) 11rem;
+  align-items: center;
+  gap: var(--gap-sm);
+  padding: 0.8rem var(--gap-md);
+  border-radius: var(--r-md);
+  transition:
+    box-shadow var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-hard-lift);
+  transform: translate3d(-1px, -1px, 0);
+}
+
+.card.isLive {
+  border-color: var(--c-emerald-card);
+}
+
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+}
+
+.date {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* --- The tie ------------------------------------------------------------- */
+
+/* Teams, with the competition badge centred beneath them. */
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.tie {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--gap-xs);
+  min-width: 0;
+}
+
+.team {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-2xs);
+  min-width: 0;
+}
+
+.home {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.awayTeam {
+  justify-content: flex-start;
+}
+
+.teamName {
+  font-size: 0.95rem;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.result {
+  display: grid;
+  place-items: center;
+  min-width: 3rem;
+}
+
+.versus {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.score {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--c-emerald);
+  letter-spacing: -0.01em;
+}
+
+.scoreDone {
+  color: var(--text);
+}
+
+/* --- Right-hand meta ----------------------------------------------------- */
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.15rem;
+  text-align: right;
+}
+
+.relative {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-ink);
+  white-space: nowrap;
+}
+
+.venue {
+  max-width: 100%;
+  font-size: 0.7rem;
+  color: var(--text-faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- Tablet: drop the trailing meta column ------------------------------- */
+
+@media (max-width: 52rem) {
+  .card {
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    row-gap: var(--gap-2xs);
+  }
+
+  .meta {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--gap-2xs);
+  }
+
+  .meta:empty {
+    display: none;
+  }
+
+  .venue {
+    display: none;
+  }
+}
+
+/* --- Phone: stack state above the tie ------------------------------------ */
+
+@media (max-width: 34rem) {
+  .item {
+    padding-left: 1.25rem;
+  }
+
+  .dot {
+    top: 1.15rem;
+  }
+
+  .card {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 0.75rem var(--gap-sm);
+    gap: var(--gap-2xs);
+  }
+
+  .state {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3rem var(--gap-2xs);
+  }
+
+  .tie {
+    gap: var(--gap-3xs);
+  }
+
+  /* Reclaim the width the "v" column reserves, so club names ellipsis later. */
+  .result {
+    min-width: 1.5rem;
+  }
+
+  .teamName {
+    font-size: 0.85rem;
+  }
+
+  .meta {
+    justify-content: flex-start;
+  }
+}
+
+/**
+ * A ring expanding out of a timeline dot and fading as it goes.
+ *
+ * Driven by box-shadow spread rather than a scaled border, which would thicken
+ * the ring as it grew and smear it into a haze. The shadow colour is held
+ * constant and opacity does the fading, since interpolating a colour to
+ * `transparent` washes out much faster than it looks like it should. It starts
+ * at 2px so the ring clears the dot's outline instead of being hidden by it.
+ * Runs on the pseudo-elements, leaving the dot's own transform free for hover.
+ */
+@keyframes dotRipple {
+  from {
+    box-shadow: 0 0 0 2px var(--dot-ring-color);
+    opacity: 1;
+  }
+  to {
+    box-shadow: 0 0 0 12px var(--dot-ring-color);
+    opacity: 0;
+  }
+}

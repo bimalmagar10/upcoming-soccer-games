@@ -1,0 +1,102 @@
+.section {
+  animation: fadeIn var(--dur) var(--ease-out) both;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--gap-2xs) var(--gap-sm);
+  padding-bottom: var(--gap-xs);
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.titleGroup {
+  display: flex;
+  align-items: baseline;
+  gap: var(--gap-2xs);
+  min-width: 0;
+}
+
+/* Small accent chip that colour-codes the competition. */
+.marker {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: none;
+  align-self: center;
+  border-radius: 2px;
+  background: var(--section-accent, var(--accent));
+  outline: 1px solid color-mix(in srgb, var(--c-midnight) 45%, transparent);
+}
+
+.title {
+  font-size: clamp(1.05rem, 2.6vw, 1.35rem);
+  font-weight: 600;
+}
+
+.subtitle {
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+.count {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+/* --- The rail ------------------------------------------------------------ */
+
+/**
+ * Fixtures hang off a vertical rule, each pinned to it by the dot on its row.
+ * The rule fades out at both ends rather than stopping abruptly.
+ */
+.list {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: var(--gap-sm) 0;
+  margin-left: var(--rail-inset);
+  border-left: 1px solid color-mix(in srgb, var(--c-midnight) 28%, transparent);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-xs);
+}
+
+.list::before,
+.list::after {
+  content: "";
+  position: absolute;
+  left: -1px;
+  width: 1px;
+  height: 1.5rem;
+  pointer-events: none;
+}
+
+.list::before {
+  top: 0;
+  background: linear-gradient(to bottom, var(--bg), transparent);
+}
+
+.list::after {
+  bottom: 0;
+  background: linear-gradient(to top, var(--bg), transparent);
+}
+
+@media (max-width: 34rem) {
+  .list {
+    margin-left: 0.5rem;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

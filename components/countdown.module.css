@@ -1,0 +1,57 @@
+.grid {
+  display: flex;
+  gap: var(--gap-2xs);
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  min-width: 3.25rem;
+  padding: 0.55rem 0.5rem 0.45rem;
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--c-void) 42%, transparent);
+  border: 1px solid var(--border);
+}
+
+.value {
+  font-size: clamp(1.35rem, 3.6vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+  animation: tickIn var(--dur) var(--ease-out);
+}
+
+.label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.underway {
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  font-weight: 700;
+  color: var(--live);
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 26rem) {
+  .cell {
+    min-width: 2.75rem;
+    padding: 0.45rem 0.35rem 0.35rem;
+  }
+}
+
+@keyframes tickIn {
+  from {
+    opacity: 0.35;
+    transform: translate3d(0, -0.28em, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

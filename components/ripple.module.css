@@ -1,0 +1,42 @@
+/**
+ * A zero-size anchor at the centre of the crest. Magic UI positions its ripple
+ * with `inset: 0` plus a fading mask, which suits a full-section backdrop; over
+ * a 76px crest that mask erased the rings, so the rings are centred on a point
+ * instead and fade through their own per-ring opacity.
+ */
+.ripple {
+  --ripple-base: var(--crest-lg, 4.75rem);
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+/**
+ * Magic UI's ripple keyframe: each ring eases between full size and 90%,
+ * staggered by its index so the set pulses outward rather than in lockstep.
+ */
+.circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  border: 1px solid var(--c-emerald);
+  background: color-mix(in srgb, var(--c-emerald) 7%, transparent);
+  transform: translate(-50%, -50%) scale(1);
+  animation: ripplePulse 2.6s ease calc(var(--i, 0) * 0.2s) infinite;
+}
+
+@keyframes ripplePulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+}

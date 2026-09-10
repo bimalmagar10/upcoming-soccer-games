@@ -1,0 +1,41 @@
+.crest {
+  display: grid;
+  place-items: center;
+  flex: none;
+  border-radius: var(--r-round);
+  background: var(--c-cream);
+  border: 1px solid var(--card-line);
+  overflow: hidden;
+  transition: transform var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.image {
+  width: 68%;
+  height: 68%;
+  object-fit: contain;
+}
+
+.monogram {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--c-midnight);
+  background: var(--c-cream);
+}
+
+.sm {
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: 0.5rem;
+}
+
+.md {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 0.65rem;
+}
+
+.lg {
+  width: var(--crest-lg);
+  height: var(--crest-lg);
+  font-size: clamp(0.75rem, 2vw, 1rem);
+}

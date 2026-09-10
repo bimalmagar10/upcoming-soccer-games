@@ -1,0 +1,223 @@
+/* ==========================================================================
+   Design tokens
+   Greenboard's palette on a cream ground: midnight-green cards sit on #eeefd2,
+   with lemon-lime and emerald accents and pistachio type inside the cards.
+   Card treatment (hard offset shadow, hairline border) follows pi.website/blog.
+   ========================================================================== */
+
+:root {
+  /* Raw palette — greenboard.com's swatches, plus the cream page ground. */
+  --c-void: #002526;
+  --c-midnight: #003738;
+  --c-rainforest: #006565;
+  --c-lemon: #d8d957;
+  --c-emerald: #4dbd97;
+  --c-emerald-card: #4cbd96;
+  --c-pistachio: #eeefd3;
+  --c-cream: #eeefd2;
+
+  /* ---- Page context: dark ink on cream ---------------------------------- */
+  --bg: var(--c-cream);
+  --text: var(--c-midnight);
+  --text-muted: color-mix(in srgb, var(--c-midnight) 68%, transparent);
+  --text-faint: color-mix(in srgb, var(--c-midnight) 45%, transparent);
+  --border: color-mix(in srgb, var(--c-midnight) 20%, transparent);
+  --border-strong: color-mix(in srgb, var(--c-midnight) 38%, transparent);
+
+  /* Lemon has too little contrast to be read as text on cream, so on this
+     ground it is a fill (with dark ink on top) and this teal carries accent text. */
+  --accent: var(--c-lemon);
+  --accent-ink: var(--c-rainforest);
+  --accent-soft: color-mix(in srgb, var(--c-lemon) 34%, transparent);
+  --live: var(--c-rainforest);
+
+  /* ---- Cards ------------------------------------------------------------ */
+  --card-bg: var(--c-midnight);
+  --card-line: var(--c-void);
+
+  /* The signature shadow: a hard offset block, no blur, that deepens on hover. */
+  --shadow-hard: 3px 3px 0 0 var(--card-line);
+  --shadow-hard-lift: 5px 5px 0 0 var(--card-line);
+  --shadow-hard-soft: 3px 3px 0 0 color-mix(in srgb, var(--c-midnight) 22%, transparent);
+
+  /* Square corners throughout — the design is built on rectangles. */
+  --r-sm: 0;
+  --r-md: 0;
+  --r-lg: 0;
+  --r-round: 0;
+
+  /* Spacing rhythm */
+  --gap-3xs: 0.25rem;
+  --gap-2xs: 0.5rem;
+  --gap-xs: 0.75rem;
+  --gap-sm: 1rem;
+  --gap-md: 1.25rem;
+  --gap-lg: 2rem;
+  --gap-xl: 3rem;
+  --gap-2xl: clamp(3.5rem, 8vw, 6rem);
+
+  /* Layout */
+  --shell: 64rem;
+  --shell-pad: clamp(1rem, 4vw, 2.5rem);
+
+  /* Timeline */
+  --rail-inset: 1.75rem;
+  --dot-size: 7px;
+
+  /* Spotlight crest size. The ripple rings are multiples of this, so they
+     shrink with the crest instead of overflowing the column on small screens. */
+  --crest-lg: clamp(3.25rem, 9vw, 4.75rem);
+
+  /* Motion */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 160ms;
+  --dur: 280ms;
+  --dur-slow: 520ms;
+
+  color-scheme: light;
+}
+
+/**
+ * The card treatment, after pi.website/blog: a hairline border and a hard,
+ * blur-free offset shadow. It also remaps the semantic tokens, so descendants
+ * keep using --text / --border and get values suited to the dark ground they
+ * are actually sitting on. Modules add their own :hover where a card is
+ * interactive.
+ */
+.onDark {
+  background: var(--card-bg);
+  color: var(--c-pistachio);
+  border: 1px solid var(--card-line);
+  box-shadow: var(--shadow-hard);
+
+  --text: var(--c-pistachio);
+  --text-muted: color-mix(in srgb, var(--c-pistachio) 68%, transparent);
+  --text-faint: color-mix(in srgb, var(--c-pistachio) 44%, transparent);
+  --border: color-mix(in srgb, var(--c-pistachio) 18%, transparent);
+  --border-strong: color-mix(in srgb, var(--c-pistachio) 34%, transparent);
+  --accent-ink: var(--c-lemon);
+  --live: var(--c-emerald);
+}
+
+/**
+ * The fixture-list card. Emerald is a mid-tone ground, so it takes dark ink —
+ * the muted and faint steps are pushed darker than they are on cream to hold
+ * their contrast against it.
+ */
+.onEmerald {
+  background: var(--c-emerald-card);
+  color: var(--c-midnight);
+  border: 1px solid var(--card-line);
+  box-shadow: var(--shadow-hard);
+
+  --text: var(--c-midnight);
+  --text-muted: color-mix(in srgb, var(--c-midnight) 78%, transparent);
+  --text-faint: color-mix(in srgb, var(--c-midnight) 58%, transparent);
+  --border: color-mix(in srgb, var(--c-midnight) 30%, transparent);
+  --border-strong: color-mix(in srgb, var(--c-midnight) 50%, transparent);
+  --accent-ink: var(--c-midnight);
+}
+
+/* ==========================================================================
+   Reset & base
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100dvh;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans), "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-feature-settings: "cv11" 1;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+/* Visible only to assistive tech. */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--r-sm);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--c-midnight);
+}
+
+/* ==========================================================================
+   Motion preferences
+   Honour the OS setting: keep state changes legible, drop the movement.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
