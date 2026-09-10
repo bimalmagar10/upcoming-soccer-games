@@ -204,6 +204,13 @@ h4 {
 }
 
 /* ==========================================================================
+   Keyframes live in the CSS module that uses them, never here.
+   CSS Modules scope `animation-name`, so a module writing `animation: fadeIn`
+   compiles to a hashed name that will not match a global `fadeIn` — the rule
+   goes silently inert, with no build error and no console warning.
+   ========================================================================== */
+
+/* ==========================================================================
    Motion preferences
    Honour the OS setting: keep state changes legible, drop the movement.
    ========================================================================== */
